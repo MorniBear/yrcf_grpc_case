@@ -1,0 +1,273 @@
+syntax = "proto3";
+
+import "response.proto";
+
+package YrcfAgent;
+option go_package = "proto/;yrcf";
+message ImportConfig {
+    enum Scope {
+        IMPORT_ALL          = 0;
+        IMPORT_NAME_MATCH   = 1;
+        IMPORT_PREFIX_MATCH = 2;
+        IMPORT_NONE         = 3;
+    }
+    Scope scope    = 1;
+    string pattern = 2;
+    string prefix  = 3;
+
+    enum LoadType {
+        LOAD_META       = 0;
+        LOAD_META_DATA  = 1;
+        LOAD_DATA_ASYNC = 2;
+    }
+    LoadType load_type = 4;
+
+    // set threads for link import, if not set,
+    // will be set as default numeration
+    uint32 threads = 5;
+
+    // if true, import will list all objects no matter link is
+    // imported or not
+    bool import_all = 6;
+}
+
+message ExportConfig {
+    uint32 bucket_id = 1;
+
+    enum Scope {
+        EXPORT_DIRTY              = 0;
+        EXPORT_NONE               = 1;
+        EXPORT_ALL                = 2;
+        EXPORT_NAME_MATCH         = 3;
+        EXPORT_PREFIX_MATCH       = 4;
+        EXPORT_DIRTY_NAME_MATCH   = 5;
+        EXPORT_DIRTY_PREFIX_MATCH = 6;
+    }
+    Scope scope    = 2;
+    string pattern = 3;
+    string prefix  = 4;
+
+    enum NameRule {
+        USE_ORIGIN = 0;
+        ADD_SUFFIX = 1;
+    }
+    NameRule name_rule = 5;
+    string name_suffix = 6;
+
+    bool will_purge = 7;
+    enum PurgeTiming {
+        AFTER_EXPORT = 0;
+    }
+    PurgeTiming purge_timing = 8;
+    uint32 threads = 9;
+    enum ETagScope {
+        DONT_CHECK_ETAG      = 0;
+        CHECK_ETAG           = 1;
+    }
+    ETagScope etag_scope = 10;
+}
+
+message SubscribeConfig {
+    enum S3Type {
+        UNSET =      0;
+        ALI   =      1;
+        BAIDU =      2;
+        CEPH  =      3;
+        YANRONGYUN = 4;
+        YRXS  =      5;
+    }
+    S3Type s3_type          = 1;
+    string prefix           = 2;
+    bool   sub_without_test = 3;
+}
+
+message HotLayerCleanupInfo {
+    uint64 cold_time      = 1;
+    string cleanup_timer = 2;
+}
+
+message BucketLinkInfo {
+    uint32 link_id   = 1;
+    string state     = 2;
+    string root_dir  = 3;
+    uint32 agent_id  = 4;
+    uint32 bucket_id = 5;
+
+    ImportConfig import_config = 6;
+    ExportConfig export_config = 7;
+
+    SubscribeConfig sub_config = 8;
+    string sub_state = 9;
+
+    HotLayerCleanupInfo hot_layer_cleanup_info = 10;
+}
+
+// message for rpc ListBucketLinks
+message ListBucketLinksRequest {
+    // return all links if id not set
+    uint32 id = 1;
+}
+message ListBucketLinksResponse {
+    ResMes result = 1;
+    repeated BucketLinkInfo bucket_link_info = 2;
+}
+
+// message for rpc AddBucketlink
+message AddBucketLinkRequest {
+    string link_root_dir = 1;
+    uint32 bucket_id     = 2;
+}
+message AddBucketLinkResponse {
+    ResMes result = 1;
+}
+
+// message for rpc DelBucketlink
+message DelBucketLinkRequest {
+    uint32 link_id = 1;
+
+    // Delete link regardless of its state
+    bool force_delete = 2;
+}
+message DelBucketLinkResponse {
+    ResMes result = 1;
+}
+
+// message for rpc ImportBucketLink
+message ImportBucketLinkRequest {
+    uint32 link_id             = 1;
+    ImportConfig import_config = 2;
+
+    // if true, only update import config
+    bool import_later = 3;
+}
+message ImportBucketLinkResponse {
+    ResMes result = 1;
+}
+
+// message for rpc ExportBukcetlink
+message ExportBucketLinkRequest {
+    uint32 link_id             = 1;
+    ExportConfig export_config = 2;
+
+    // if true, only update export config
+    bool export_later = 3;
+}
+message ExportBucketLinkResponse {
+    ResMes result = 1;
+}
+
+message ImportProgress {
+    uint64 import_total  = 1;
+    uint64 meta_finished = 2;
+    uint64 data_finished = 3;
+}
+
+message ExportProgress {
+    uint64 export_total    = 1;
+    uint64 export_finished = 2;
+}
+
+// message for StatBucketLink
+message StatBucketLinkRequest {
+    uint32 link_id = 1;
+}
+message StatBucketLinkResponse {
+    ResMes result  = 1;
+    uint32 link_id = 2;
+    string state   = 3;
+
+    uint32 import_bucket_id        = 4;
+    ImportProgress import_progress = 5;
+
+    uint32 export_bucket_id        = 6;
+    ExportProgress export_progress = 7;
+}
+
+// message for BucketLinkSubscirbeOps
+message BucketLinkSubscribeOpsRequest {
+    uint32 link_id = 1;
+    enum SubOp {
+        SUBSCRIBE   = 0;
+        UNSUBSCRIBE = 1;
+    }
+    SubOp sub_op               = 2;
+    SubscribeConfig sub_config = 3;
+}
+message BucketLinkSubscribeOpsResponse {
+    ResMes result = 1;
+}
+
+// message for Bucketlink op history
+message ImportHistoryInfo {
+    uint32 id           = 1;
+    string state        = 2;
+    string start_time   = 3;
+    string end_time     = 4;
+    uint64 total        = 5;
+    uint64 meta_success = 6;
+    uint64 meta_failed  = 7;
+    uint64 data_success = 8;
+    uint64 data_failed  = 9;
+
+    // objects already imported
+    uint64 skip         = 10;
+    uint32 work_agent   = 11;
+}
+
+message ExportHistoryInfo {
+    uint32 id           = 1;
+    string state        = 2;
+    string start_time   = 3;
+    string end_time     = 4;
+    uint64 total        = 5;
+    uint64 success      = 6;
+    uint64 failed       = 7;
+    uint32 work_agent   = 8;
+}
+
+message ShowBucketLinkHistoryRequest {
+    uint32 link_id = 1;
+
+    enum ShowType {
+        IMPORT = 0;
+        EXPORT = 1;
+    }
+    ShowType show_type = 2;
+}
+message ShowBucketLinkHistoryResponse {
+    ResMes result                                  = 1;
+    repeated ImportHistoryInfo import_history_info = 2;
+    repeated ExportHistoryInfo export_history_info = 3;
+}
+
+// message for rpc HotLayerCleanupOps
+message HotLayerCleanupOpsRequest {
+    enum HotLayerCleanupOp {
+        UPDATE_CLEANUP_RULES = 0;
+        TRIGGER_CLEANUP      = 1;
+    }
+    HotLayerCleanupOp cleanup_op = 1;
+
+    uint32 link_id = 2;
+
+    // once file imported is not used for <cold_time> seconds,
+    // it will be automatically cleared when <cleanup_timer> triggers.
+    // To turn of cleanup, set <cold_time> to 0.
+    uint64 cold_time     = 3;
+    string cleanup_timer = 4;
+}
+message HotLayerCleanupOpsResponse {
+    ResMes result = 1;
+}
+
+service BucketLink {
+  rpc ListBucketLinks(ListBucketLinksRequest) returns (ListBucketLinksResponse) {}
+  rpc AddBucketLink(AddBucketLinkRequest) returns (AddBucketLinkResponse) {}
+  rpc DelBucketLink(DelBucketLinkRequest) returns (DelBucketLinkResponse) {}
+  rpc ImportBucketLink(ImportBucketLinkRequest) returns (ImportBucketLinkResponse) {}
+  rpc ExportBucketLink(ExportBucketLinkRequest) returns (ExportBucketLinkResponse) {}
+  rpc StatBucketLink(StatBucketLinkRequest) returns (StatBucketLinkResponse) {}
+  rpc BucketLinkSubscribeOps(BucketLinkSubscribeOpsRequest) returns (BucketLinkSubscribeOpsResponse) {}
+  rpc ShowBucketLinkHistory(ShowBucketLinkHistoryRequest) returns (ShowBucketLinkHistoryResponse) {}
+  rpc HotLayerCleanupOps(HotLayerCleanupOpsRequest) returns (HotLayerCleanupOpsResponse) {}
+}

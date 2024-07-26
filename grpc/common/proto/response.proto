@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+option go_package = "yrcf_grpc_case/grpc/common/proto;common";
+message ResMes {
+    uint32 error_code = 1;
+    string result     = 2;
+}

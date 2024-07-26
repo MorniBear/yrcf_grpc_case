@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+import "response.proto";
+
+package YrcfAgent;
+option go_package = "proto/;yrcf";
+// message for rpc SetAttr
+message SetAttrRequest {
+    bool use_absolute_path = 1;
+    string path = 2;
+
+    // no action with UINT32_MAX
+    string access_mode = 3;
+    uint32         uid = 4;
+    uint32         gid = 5;
+
+    // UNIX timestamps, for each pair, no action with any one assigned -1
+    optional int64 mtime_secs = 6;
+    optional int64 mtime_nano = 7;
+    optional int64 atime_secs = 8;
+    optional int64 atime_nano = 9;
+}
+
+message SetAttrResponse {
+    ResMes result = 1;
+}
+
+service SetAttr {
+    rpc SetAttr(SetAttrRequest) returns (SetAttrResponse) {}
+}

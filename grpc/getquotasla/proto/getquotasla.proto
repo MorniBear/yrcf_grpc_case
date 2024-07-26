@@ -1,0 +1,36 @@
+syntax = "proto3";
+import "response.proto";
+package YrcfAgent;
+option go_package = "proto/;yrcf";
+//grpc client: get sla info
+message GetQuotaSlaRequest {
+    bool with_root = 1;
+    string path    = 2;
+}
+
+message QuotaSlaValue {
+    uint64 total_rb = 1;
+    uint64 total_wb = 2;
+    uint64 total_rs = 3;
+    uint64 total_ws = 4;
+    uint64 rbps = 5;
+    uint64 wbps = 6;
+    uint64 riops = 7;
+    uint64 wiops = 8;
+}
+
+message QuotaSla {
+    string path = 1;
+    string entry_id = 2;
+    QuotaSlaValue value =3;
+}
+
+//grpc server: return sla info
+message GetQuotaSlaResponse {
+    ResMes result = 1;
+    repeated QuotaSla quota_sla = 2;
+}
+
+service GetQuotaSla {
+    rpc QuotaSla(GetQuotaSlaRequest) returns (GetQuotaSlaResponse) {}
+}

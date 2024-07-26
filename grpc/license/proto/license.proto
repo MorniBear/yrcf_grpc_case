@@ -1,0 +1,33 @@
+syntax = "proto3";
+import "response.proto";
+package YrcfAgent;
+option go_package = "proto/;yrcf";
+// get license
+message GetLicenseRequest {
+}
+message GetLicenseResponse {
+    ResMes result = 1;
+    string time=2;
+}
+
+// set license
+message SetLicenseRequest {
+    optional string path = 1;
+    repeated string license = 2;
+}
+message SetLicenseResponse {
+    ResMes result = 1;
+}
+
+// request license
+message RequestLicenseRequest {
+}
+message RequestLicenseResponse {
+    ResMes result = 1;
+}
+
+service License {
+    rpc GetLicense(GetLicenseRequest) returns (GetLicenseResponse) {}
+    rpc SetLicense(SetLicenseRequest) returns (SetLicenseResponse) {}
+    rpc RequestLicense(RequestLicenseRequest) returns (RequestLicenseResponse) {}
+}

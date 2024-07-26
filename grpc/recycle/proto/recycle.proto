@@ -1,0 +1,187 @@
+syntax = "proto3";
+
+import "response.proto";
+
+package YrcfAgent;
+option go_package = "proto/;yrcf";
+message RecycleInfo
+{
+  uint32 id          = 1;
+  string path        = 2;
+
+  // limitation days for file really deleted automatically
+  uint32 expiration  = 3;
+  string status      = 4;
+
+  // total size of files in recycle
+  string usage   = 5;
+  uint32 threads = 6;
+}
+
+// message for rpc list recycle
+message ListRecycleRequest {}
+message ListRecycleResponse
+{
+  ResMes result                    = 1;
+  repeated RecycleInfo recycle_info = 2;
+}
+
+// message for rpc add recycle
+message AddRecycleRequest
+{
+  string path = 1;
+
+  // set as days
+  uint32 expiration = 2;
+
+  // the num of <threads> to do recycle or delete
+  // if not given, will be set as a default number
+  uint32 threads = 3;
+}
+message AddRecycleResponse
+{
+  ResMes result = 1;
+}
+
+// message for rpc delete recycle
+message DeleteRecycleRequest
+{
+  uint32 id = 1;
+}
+message DeleteRecycleResponse
+{
+  ResMes result = 1;
+}
+
+// message for rpc update recycle
+message UpdateRecycleRequest
+{
+  uint32 id = 1;
+
+  bool turn_recycle_on = 2;
+  uint32 expiration    = 3;
+  uint32 threads       = 4;
+}
+message UpdateRecycleResponse
+{
+  ResMes result = 1;
+}
+
+message RecycleFileInfo
+{
+  string path          = 1;
+  string key           = 2;
+  string eid           = 3;
+  uint64 size          = 4;
+  uint64 recycled_time = 5;
+  uint64 expiration    = 6;
+  uint32 owner_mds_id  = 7;
+}
+
+// message for rpc list files in recycle
+message ListFilesInRecycleRequest
+{
+  // ID of recycle
+  uint32 id        = 1;
+  string dir_path  = 2;
+  string key  = 3;
+
+  // arg for setting acquired page
+  enum ListMode {
+    FIRST_PAGE = 0;
+    PREV_PAGE  = 1;
+    NEXT_PAGE  = 2;
+    LAST_PAGE  = 3;
+  }
+  ListMode list_mode = 4;
+
+  // if <time> is offered, will ignore <path>
+  // only list time recycled after <begin_time> if <end_time> is not offerd
+  string begin_time = 5;
+  string end_time   = 6;
+}
+message ListFilesInRecycleResponse
+{
+  ResMes result                             = 1;
+  repeated RecycleFileInfo recycle_file_info = 2;
+}
+
+// message for rpc recycle files
+message RecycleFileRequest
+{
+  uint32 id           = 1;
+  string path         = 2;
+  string eid          = 3;
+  uint32 owner_mds_id = 4;
+}
+message RecycleFileResponse
+{
+  ResMes result = 1;
+}
+
+// message for rpc delete files
+message DeleteFileRequest
+{
+  uint32 id           = 1;
+  string path         = 2;
+  string eid          = 3;
+  uint32 owner_mds_id = 4;
+}
+message DeleteFileResponse
+{
+  ResMes result = 1;
+}
+
+message RecycleHistoryInfo
+{
+  uint32 id         = 1;
+  string type       = 2;
+  string status     = 3;
+  string src_path   = 4;
+  string des_path   = 5;
+  uint64 total      = 6;
+  uint64 succeed    = 7;
+  uint64 failed     = 8;
+  uint64 begin_time = 9;
+  uint64 end_time   = 10;
+  string key        = 11;
+  uint32 mds_id     = 12;
+  string eid        = 13;
+}
+
+// message for rpc show mission history
+message ShowHistoryOfRecycleRequest
+{
+  // if true, will return mission infilght or pending,
+  // otherwise, return mission already completed
+  bool is_inflight = 1;
+  uint32 id        = 2;
+}
+message ShowHistoryOfRecycleResponse
+{
+  ResMes result = 1;
+  repeated RecycleHistoryInfo history_info = 2;
+}
+
+// message for rpc stop mission
+message StopMissionRequest
+{
+  uint32 id_of_mission = 1;
+}
+message StopMissionResponse
+{
+  ResMes result = 1;
+}
+
+service Recycle
+{
+  rpc ListRecycle(ListRecycleRequest) returns (ListRecycleResponse) {}
+  rpc AddRecycle(AddRecycleRequest) returns (AddRecycleResponse) {}
+  rpc DeleteRecycle(DeleteRecycleRequest) returns (DeleteRecycleResponse) {}
+  rpc UpdateRecycle(UpdateRecycleRequest) returns (UpdateRecycleResponse) {}
+  rpc ListFilesInRecycle(ListFilesInRecycleRequest) returns (ListFilesInRecycleResponse) {}
+  rpc RecycleFile(RecycleFileRequest) returns (RecycleFileResponse) {}
+  rpc DeleteFile(DeleteFileRequest) returns (DeleteFileResponse) {}
+  rpc ShowHistoryOfRecycle(ShowHistoryOfRecycleRequest) returns (ShowHistoryOfRecycleResponse) {}
+  rpc StopMission(StopMissionRequest) returns (StopMissionResponse) {}
+}

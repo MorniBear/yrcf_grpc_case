@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+// If you want to make any modifications, please synchronize to the yrdi project
+package yrdi;
+option go_package = "proto/;yrcf";
+enum FileType {
+    FileType_INVALID     = 0;
+    FileType_DIRECTORY   = 1;
+    FileType_REGULARFILE = 2;
+    FileType_SYMLINK     = 3;
+    FileType_BLOCKDEV    = 4;
+    FileType_CHARDEV     = 5;
+    FileType_FIFO        = 6;
+    FileType_SOCKET      = 7;
+}
+
+enum Layout {
+    Layout_Invalid  = 0;
+    Layout_Raid0    = 1;
+    Layout_Mirror   = 2;
+    Layout_Standby  = 3;
+}
+
+enum S3Layer {
+    S3Layer_Invalid = 0;
+    S3Layer_Hot     = 1;
+    S3Layer_Mixed   = 2;
+    S3Layer_Cold    = 3;
+}
+
+message MetaInfo {
+    string peid     = 1;
+    string eid      = 2;
+    string name     = 3;
+    FileType type   = 4;
+    Layout layout   = 5;
+    uint32 group_id = 6;
+    string node_id  = 7;
+}
+
+message DataInfo {
+    S3Layer s3_layer          = 1;
+    Layout data_layout        = 2;
+    uint32 tiering_id         = 3;
+    uint32 bucket_link_id     = 4;
+    uint32 project_id         = 5;
+    uint64 stripe_size        = 6;
+    uint32 stripe_count       = 7;
+    repeated uint32 placement = 8;
+}
+
+message StatInfo {
+    int32 mode       = 1;
+    int64 file_size  = 2;
+    uint64 nr_blocks = 3; // Currently, this field has not been obtained
+    uint32 nlink     = 4;
+    uint32 uid       = 5;
+    uint32 gid       = 6;
+
+    int64 btime_sec  = 7;
+    int64 btime_ns   = 8;
+    int64 ctime_sec  = 9;
+    int64 ctime_ns   = 10;
+    int64 mtime_sec  = 11;
+    int64 mtime_ns   = 12;
+    int64 atime_sec  = 13;
+    int64 atime_ns   = 14;
+}
+
+message DumpFileInfoRequest {
+    string path         = 1;
+}
+message DumpFileInfoResponse {
+    int32 result       = 1;
+    string msg         = 2;
+    MetaInfo meta_info = 3;
+    DataInfo data_info = 4;
+    StatInfo stat_info = 5;
+}
+
+service DumpFileInfo {
+    rpc DumpFileInfo(DumpFileInfoRequest) returns (DumpFileInfoResponse) {}
+}

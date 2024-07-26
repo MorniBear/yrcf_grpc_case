@@ -1,0 +1,63 @@
+syntax = "proto3";
+import "response.proto";
+package YrcfAgent;
+option go_package = "yrcf_grpc_case/grpc/projectquota/proto/;projectquota";
+// add or update projectquota parameter
+message AddOrUpdateProjectQuotaRequest {
+    enum QuotaOp {
+        ADD    = 0;
+        UPDATE = 1;
+    }
+    QuotaOp op            = 1;
+    string path           = 2;
+    string space_limit    = 3;
+    uint64 inode_limit    = 4;
+    bool recursive        = 5;
+    bool ignore_existing  = 6;
+    bool project_continue = 7;
+}
+message AddOrUpdateProjectQuotaResponse{
+    ResMes result = 1;
+}
+
+// list projectquota parameter
+message ListProjectQuotaRequest {
+    // if not set, will list all quota info, only support relative path
+    string path = 1;
+    // must set with path, quota under path will be listed
+    bool prefix = 2;
+}
+message ProjectQuotaInfo {
+    string eid         = 1;
+    uint64 quota_id    = 2;
+    uint64 space_used  = 3;
+    uint64 space_limit = 4;
+    uint64 inode_used  = 5;
+    uint64 inode_limit = 6;
+    uint64 dir_used    = 7;
+    uint64 file_used   = 8;
+    string path        = 9;
+    string op_status   = 10;
+    bool recursive     = 11;
+}
+message ListProjectQuotaResponse {
+    ResMes result = 1;
+    repeated ProjectQuotaInfo project_quota_info_list = 2;
+}
+
+// delete projectquota parameter
+message DeleteProjectQuotaRequest {
+    string path = 1;
+    string eid  = 2;
+    bool force  = 3;
+}
+message DeleteProjectQuotaResponse {
+    ResMes result =1;
+}
+
+
+service ProjectQuota {
+    rpc AddOrUpdateProjectQuota(AddOrUpdateProjectQuotaRequest) returns (AddOrUpdateProjectQuotaResponse) {}
+    rpc ListProjectQuota(ListProjectQuotaRequest) returns (ListProjectQuotaResponse) {}
+    rpc DeleteProjectQuota(DeleteProjectQuotaRequest) returns (DeleteProjectQuotaResponse) {}
+}

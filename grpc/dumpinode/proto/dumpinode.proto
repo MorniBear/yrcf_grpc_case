@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+import "response.proto";
+
+package YrcfAgent;
+option go_package = "proto/;yrcf";
+//message for dumpinode
+message DumpInodeRequest {
+    // Use path for mounted.(default false)
+    bool use_absolute_path = 1;
+
+    // Specify the directory.(default "")
+    string path = 2;
+
+    enum NodeType {
+        MGR = 0;
+        MDS = 1;
+        OSS = 2;
+    }
+    NodeType type = 3;
+
+    // Specify the entryid.(default "")
+    string entry_id = 4;
+}
+
+message InodeInfo {
+    enum EntryType {
+        DirEntryType_INVALID = 0;
+        DirEntryType_DIRECTORY = 1;
+        DirEntryType_REGULARFILE = 2;
+        DirEntryType_SYMLINK = 3;
+        DirEntryType_BLOCKDEV = 4;
+        DirEntryType_CHARDEV = 5;
+        DirEntryType_FIFO = 6;
+        DirEntryType_SOCKET = 7;
+    };
+
+    EntryType entry_type       = 1;
+    string parent_entry_id         = 2;
+    string parent_node_id   = 3;
+    string owner_node_id   = 4;
+    uint32 mode   = 5;
+    uint32 uid   = 6;
+    uint32 gid   = 7;
+    int64 size   = 8;
+    int64 num_links   = 9;
+    int64 ctime   = 10;
+    int64 atime   = 11;
+    int64 mtime   = 12;
+    int64 feature_flags   = 13;
+    string feature_flags_str = 14;
+    uint32 num_sub_dirs = 15;
+    uint32 num_sub_files = 16;
+}
+
+message DumpInodeResponse {
+    ResMes result        = 1;
+    string command       = 2;
+    string response_from = 3;
+    InodeInfo resp_info  = 4;
+}
+
+service DumpInode {
+    rpc DumpInode(DumpInodeRequest) returns (DumpInodeResponse) {}
+}

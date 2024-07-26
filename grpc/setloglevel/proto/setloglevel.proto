@@ -1,0 +1,32 @@
+/*
+ *  This proto is used for setting log level in corresponding agent,
+ *  thus it is a developer tool while debugging.
+ *  Be noted, do not integrate this proto into your system for it may
+ *  be deleted in the future.
+ */
+syntax = "proto3";
+
+import "response.proto";
+
+package YrcfAgent;
+option go_package = "proto/;yrcf";
+// message for set log level
+message SetLogLevelRequest {
+    enum LogLevel {
+        FATAL = 0;
+        ERR   = 1;
+        WARN  = 2;
+        INFO  = 3;
+        DBG   = 4;
+        TRACE = 5;
+    }
+    LogLevel log_level = 1;
+}
+
+message SetLogLevelResponse {
+    ResMes result = 1;
+}
+
+service SetLogLevel {
+    rpc SetLogLevel(SetLogLevelRequest) returns (SetLogLevelResponse);
+}

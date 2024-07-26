@@ -1,0 +1,22 @@
+syntax = "proto3";
+import "response.proto";
+package YrcfAgent;
+option go_package = "proto/;yrcf";
+message GetCidrPriRequest {
+}
+message GetCidrPriResponse {
+    string value = 1;
+    ResMes result = 2;
+}
+
+message SetCidrPriRequest {
+    string value = 1;
+}
+message SetCidrPriResponse {
+    ResMes result = 1;
+}
+
+service CidrPriority {
+    rpc GetCidrPriority(GetCidrPriRequest) returns (GetCidrPriResponse) {}
+    rpc SetCidrPriority(SetCidrPriRequest) returns (SetCidrPriResponse) {}
+}

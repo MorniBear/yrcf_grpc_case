@@ -1,0 +1,22 @@
+syntax = "proto3";
+import "response.proto";
+package YrcfAgent;
+option go_package = "yrcf_grpc_case/grpc/listdir/proto/;listdir";
+// list dir info
+message ListDirRequest {
+    string path = 1;
+    bool mounted = 2;
+}
+message ListDirInfo {
+    string entry_types = 1;
+    string entry_names = 2;
+}
+message ListDirResponse {
+    ResMes result = 1;
+    repeated ListDirInfo listdir_info_list = 2;
+}
+
+service ListDir {
+    rpc ListDir(ListDirRequest) returns (ListDirResponse) {}
+}
+
