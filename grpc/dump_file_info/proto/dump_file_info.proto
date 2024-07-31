@@ -2,7 +2,7 @@ syntax = "proto3";
 
 // If you want to make any modifications, please synchronize to the yrdi project
 package yrdi;
-option go_package = "proto/;yrcf";
+option go_package = "yrcf_grpc_case/grpc/dump_file_info/proto/;dump_file_info";
 enum FileType {
     FileType_INVALID     = 0;
     FileType_DIRECTORY   = 1;

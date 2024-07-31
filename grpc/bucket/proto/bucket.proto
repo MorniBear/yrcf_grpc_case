@@ -3,7 +3,7 @@ syntax = "proto3";
 import "response.proto";
 
 package YrcfAgent;
-option go_package = "yrcf_grpc_case/grpc/blockio/proto/;blockio";
+option go_package = "yrcf_grpc_case/grpc/bucket/proto/;bucket";
 message BucketConfig {
     string host_name = 1;
     string bucket_name = 2;

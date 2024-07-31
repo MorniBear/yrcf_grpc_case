@@ -3,7 +3,7 @@ syntax = "proto3";
 import "response.proto";
 
 package YrcfAgent;
-option go_package = "proto/;yrcf";
+option go_package = "yrcf_grpc_case/grpc/getentry/proto/;getentry";
 message MetaInfo {
     string eid        = 1;
     string peid       = 2;
