@@ -7,19 +7,19 @@ import (
 	"log"
 	"time"
 	connect "yrcf_grpc_case/grpc/common"
-	mkfs "yrcf_grpc_case/grpc/mkfs/proto"
+	setloglevel "yrcf_grpc_case/grpc/setloglevel/proto"
 )
 
-func Run(client *mkfs.MkfsClient, param *mkfs.MkfsRequest) bool {
+func Run(client *setloglevel.SetLogLevelClient, param *setloglevel.SetLogLevelRequest) bool {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	result, err := (*client).Mkfs(ctx, param)
+	result, err := (*client).SetLogLevel(ctx, param)
 	if err != nil {
-		log.Fatal("did not mkfs err: ", err)
+		log.Fatal("did not set log level err: ", err)
 	}
 
 	if result.GetResult().GetErrorCode() != 0 {
-		log.Printf("Mkfs failed, errcode=%d, result=%s\n",
+		log.Printf("Set log level failed, errcode=%d, result=%s\n",
 			result.GetResult().GetErrorCode(), result.GetResult().GetResult())
 		return false
 	} else {
@@ -36,9 +36,9 @@ func Example(address string, port int) {
 		}
 	}(conn)
 
-	client := mkfs.NewMkfsClient(conn)
-	result := Run(&client, &mkfs.MkfsRequest{})
+	client := setloglevel.NewSetLogLevelClient(conn)
+	result := Run(&client, &setloglevel.SetLogLevelRequest{})
 	if result {
-		fmt.Println("mkfs succeeded")
+		fmt.Println("set log level succeeded")
 	}
 }
