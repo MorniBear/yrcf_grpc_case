@@ -57,7 +57,7 @@ func Example(address string, port int) {
 
 	//second, create quota for this dir
 	addQuotaClient := projectquota.NewProjectQuotaClient(conn)
-	result2 := Run(&addQuotaClient, &projectquota.AddOrUpdateProjectQuotaRequest{
+	resultQuota := Run(&addQuotaClient, &projectquota.AddOrUpdateProjectQuotaRequest{
 		Op:              projectquota.AddOrUpdateProjectQuotaRequest_ADD,
 		Path:            path,
 		SpaceLimit:      "10G",
@@ -67,7 +67,7 @@ func Example(address string, port int) {
 		ProjectContinue: false,
 	})
 
-	if result2 {
+	if resultQuota {
 		fmt.Println("Add project quota success")
 	}
 }

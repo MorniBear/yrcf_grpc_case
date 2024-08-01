@@ -1,24 +1,25 @@
-package GetEntry
+package SetLogLevel
 
 import (
 	"context"
+	"fmt"
 	"google.golang.org/grpc"
 	"log"
 	"time"
 	connect "yrcf_grpc_case/grpc/common"
-	getentry "yrcf_grpc_case/grpc/getentry/proto"
+	mkfs "yrcf_grpc_case/grpc/mkfs/proto"
 )
 
-func Run(client *getentry.GetEntryClient, param *getentry.GetEntryRequest) bool {
+func Run(client *mkfs.MkfsClient, param *mkfs.MkfsRequest) bool {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	result, err := (*client).GetEntry(ctx, param)
+	result, err := (*client).Mkfs(ctx, param)
 	if err != nil {
-		log.Fatal("did not get cidr priority, err: ", err)
+		log.Fatal("did not mkfs err: ", err)
 	}
 
 	if result.GetResult().GetErrorCode() != 0 {
-		log.Printf("Get cidr priority failed, errcode=%d, result=%s\n",
+		log.Printf("Mkfs failed, errcode=%d, result=%s\n",
 			result.GetResult().GetErrorCode(), result.GetResult().GetResult())
 		return false
 	} else {
@@ -35,12 +36,9 @@ func Example(address string, port int) {
 		}
 	}(conn)
 
-	client := getentry.NewGetEntryClient(conn)
-	result := Run(&client, &getentry.GetEntryRequest{
-		UseAbsolutePath: false,
-		Path:            "/testfile",
-	})
+	client := mkfs.NewMkfsClient(conn)
+	result := Run(&client, &mkfs.MkfsRequest{})
 	if result {
-		log.Println("get entry success")
+		fmt.Println("mkfs succeeded")
 	}
 }

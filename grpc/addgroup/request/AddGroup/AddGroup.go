@@ -2,7 +2,6 @@ package AddGroup
 
 import (
 	"context"
-	"fmt"
 	"google.golang.org/grpc"
 	"log"
 	"time"
@@ -10,7 +9,7 @@ import (
 	connect "yrcf_grpc_case/grpc/common"
 )
 
-func Run(client *addgroup.AddGroupClient, param *addgroup.AddGroupRequest) bool {
+func Run(client *addgroup.AddGroupClient, param *addgroup.AddGroupRequest) []*addgroup.OsdGroupInfo {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 	result, err := (*client).AddGroup(ctx, param)
@@ -20,9 +19,9 @@ func Run(client *addgroup.AddGroupClient, param *addgroup.AddGroupRequest) bool 
 	if result.GetResult().GetErrorCode() != 0 {
 		log.Printf("add acl group, errcode=%d, result=%s\n",
 			result.GetResult().GetErrorCode(), result.GetResult().GetResult())
-		return false
+		return nil
 	} else {
-		return true
+		return result.GetOsdGroupInfo()
 	}
 }
 
@@ -47,7 +46,9 @@ func Example(address string, port int) {
 		UniqueGroupId: false,
 	})
 
-	if result {
-		fmt.Println("add group succeeded")
-	}
+	printResult(result)
+}
+
+func printResult(result []*addgroup.OsdGroupInfo) {
+
 }
