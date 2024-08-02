@@ -3,7 +3,7 @@ syntax = "proto3";
 import "response.proto";
 
 package YrcfAgent;
-option go_package = "proto/;yrcf";
+option go_package = "yrcf_grpc_case/grpc/tiering/proto/;tiering";
 message TieringBasicInfo {
     string path      = 1;
     uint32 bucket_id = 2;

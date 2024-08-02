@@ -8,7 +8,7 @@ import (
 	"time"
 	connect "yrcf_grpc_case/grpc/common"
 	mkdir "yrcf_grpc_case/grpc/mkdir/proto"
-	MkDir "yrcf_grpc_case/grpc/mkdir/src"
+	MkDir "yrcf_grpc_case/grpc/mkdir/request"
 	projectquota "yrcf_grpc_case/grpc/projectquota/proto"
 )
 

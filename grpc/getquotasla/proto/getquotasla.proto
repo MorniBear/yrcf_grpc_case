@@ -1,7 +1,7 @@
 syntax = "proto3";
 import "response.proto";
 package YrcfAgent;
-option go_package = "proto/;yrcf";
+option go_package = "yrcf_grpc_case/grpc/getquotasla/proto/;getquotasla";
 //grpc client: get sla info
 message GetQuotaSlaRequest {
     bool with_root = 1;

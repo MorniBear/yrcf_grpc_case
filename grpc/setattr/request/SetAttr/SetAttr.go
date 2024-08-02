@@ -36,16 +36,18 @@ func Example(address string, port int) {
 		}
 	}(conn)
 
+	mTimeSecs := int64(1000)
+	aTimeSecs := int64(1000)
 	client := setattr.NewSetAttrClient(conn)
 	result := Run(&client, &setattr.SetAttrRequest{
 		UseAbsolutePath: false,
 		Path:            "/",
-		AccessMode:      "",
+		AccessMode:      "0777",
 		Uid:             0,
 		Gid:             0,
-		MtimeSecs:       nil,
+		MtimeSecs:       &mTimeSecs,
 		MtimeNano:       nil,
-		AtimeSecs:       nil,
+		AtimeSecs:       &aTimeSecs,
 		AtimeNano:       nil,
 	})
 	if result {

@@ -3,7 +3,7 @@ syntax = "proto3";
 import "response.proto";
 
 package YrcfAgent;
-option go_package = "proto/;yrcf";
+option go_package = "yrcf_grpc_case/recycle/task/proto/;recycle";
 message RecycleInfo
 {
   uint32 id          = 1;
