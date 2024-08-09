@@ -38,7 +38,7 @@ func Example(address string, port int) {
 	client := bucketlink.NewBucketLinkClient(conn)
 	result := Run(&client, &bucketlink.BucketLinkSubscribeOpsRequest{
 		LinkId: 1,
-		SubOp:  0,
+		SubOp:  bucketlink.BucketLinkSubscribeOpsRequest_SUBSCRIBE,
 		SubConfig: &bucketlink.SubscribeConfig{
 			S3Type:         bucketlink.SubscribeConfig_YANRONGYUN,
 			Prefix:         "",

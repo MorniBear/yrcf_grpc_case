@@ -28,15 +28,6 @@ func Run(client *mkdir.MkDirClient, param *mkdir.MkDirRequest) bool {
 }
 
 func Example(address string, port int) {
-	println("{\n  " +
-		"\"use_absolute_path\": false,\n  " +
-		"\"path\": \"grpc_mkdir\",\n  " +
-		"\"prefer_mds\": \"\",\n  " +
-		"\"access_mode\": \"\",\n  " +
-		"\"uid\": 0,\n  \"gid\": 0,\n  " +
-		"\"not_use_mirror\": false,\n  " +
-		"\"casefold\": false\n" +
-		"}")
 	conn := connect.GetConn(address, port)
 	defer func(conn *grpc.ClientConn) {
 		err := conn.Close()

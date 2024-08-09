@@ -29,7 +29,6 @@ func Run(client *nodelist.NodeListClient, param *nodelist.NodeListRequest) []*no
 }
 
 func Example(address string, port int) {
-	fmt.Println("{\n  \"client\": true,\n  \"hide_internal_ips\": false,\n  \"agent\": true\n}")
 	conn := connect.GetConn(address, port)
 	defer func(conn *grpc.ClientConn) {
 		err := conn.Close()

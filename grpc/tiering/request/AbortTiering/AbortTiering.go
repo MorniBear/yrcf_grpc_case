@@ -39,7 +39,6 @@ func Example(address string, port int) {
 	client := tiering.NewTieringClient(conn)
 	result := Run(&client, &tiering.AbortTieringRequest{
 		TieringId: 1,
-		All:       false,
 	})
 
 	if result {

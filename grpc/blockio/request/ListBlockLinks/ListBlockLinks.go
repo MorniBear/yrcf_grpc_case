@@ -37,7 +37,6 @@ func Example(address string, port int) {
 	client := blockio.NewBlockIOClient(conn)
 	var result = Run(&client, &blockio.ListBlockLinksRequest{})
 	printResult(result)
-
 }
 
 func printResult(result []*blockio.BlockLinkInfo) {

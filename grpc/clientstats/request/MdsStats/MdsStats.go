@@ -28,14 +28,6 @@ func Run(client *clientstats.ClientStatsClient, param *clientstats.ClientStatsRe
 }
 
 func Example(address string, port int) {
-	fmt.Print("MdsStats example param:\n" +
-		"{\n" +
-		"\t\"hide_internal_ips\": true,\n" +
-		"\t\"return_zero_stats\": true,\n" +
-		"\t\"client_stats_type\": \"EXT\",\n" +
-		"\t\"cidr\": \"\"\n" +
-		"}\n\n")
-
 	conn := connect.GetConn(address, port)
 	defer func(conn *grpc.ClientConn) {
 		err := conn.Close()

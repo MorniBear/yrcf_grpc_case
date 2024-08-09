@@ -40,16 +40,16 @@ func Example(address string, port int) {
 	result := Run(&client, &tiering.AddTieringRequest{
 		UseAbsolutePath: false,
 		TieringBasicInfo: &tiering.TieringBasicInfo{
-			Path:           "",
-			BucketId:       0,
-			BackupBucketId: 0,
-			ColdTime:       0,
-			FlushTimer:     "",
+			Path:           "/grpc_tiering",
+			BucketId:       1,
+			BackupBucketId: 2,
+			ColdTime:       30,
+			FlushTimer:     "13:44",
 		},
 		TieringId:     1,
-		Policy:        "",
-		PutThreadNum:  0,
-		ScanThreadNum: 0,
+		Policy:        "4k:100",
+		PutThreadNum:  2,
+		ScanThreadNum: 2,
 	})
 
 	if result {

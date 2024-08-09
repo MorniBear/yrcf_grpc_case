@@ -45,10 +45,10 @@ func Example(address string, port int) {
 			Prefix:      "",
 			NameRule:    bucketlink.ExportConfig_USE_ORIGIN,
 			NameSuffix:  "",
-			WillPurge:   false,
+			WillPurge:   true,
 			PurgeTiming: bucketlink.ExportConfig_AFTER_EXPORT,
 			Threads:     2,
-			EtagScope:   0,
+			EtagScope:   bucketlink.ExportConfig_DONT_CHECK_ETAG,
 		},
 		ExportLater: false,
 	})

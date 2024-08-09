@@ -9,7 +9,7 @@ import (
 	dump_file_info "yrcf_grpc_case/grpc/dump_file_info/proto"
 )
 
-func Run(client *dump_file_info.DumpFileInfoClient, param *dump_file_info.DumpFileInfoRequest) bool {
+func Run(client *dump_file_info.DumpFileInfoClient, param *dump_file_info.DumpFileInfoRequest) *dump_file_info.DumpFileInfoResponse {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 	result, err := (*client).DumpFileInfo(ctx, param)
@@ -20,9 +20,9 @@ func Run(client *dump_file_info.DumpFileInfoClient, param *dump_file_info.DumpFi
 	if result.GetResult() != 0 {
 		log.Printf("Dump file info failed, errcode=%d msg=%s\n",
 			result.GetResult(), result.GetMsg())
-		return false
+		return nil
 	} else {
-		return true
+		return result
 	}
 }
 
@@ -39,7 +39,7 @@ func Example(address string, port int) {
 	result := Run(&client, &dump_file_info.DumpFileInfoRequest{
 		Path: "/",
 	})
-	if result {
-		log.Println("success")
-	}
+
+	printResult(result)
 }
+func printResult(result *dump_file_info.DumpFileInfoResponse) {}

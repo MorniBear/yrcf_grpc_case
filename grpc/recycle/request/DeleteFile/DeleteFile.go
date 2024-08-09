@@ -40,7 +40,7 @@ func Example(address string, port int) {
 	result := Run(&client, &recycle.DeleteFileRequest{
 		Id:         1,
 		Path:       "/grpc_recycle/del_file",
-		Eid:        "",
+		Eid:        "0012D66B4AA52",
 		OwnerMdsId: 1,
 	})
 

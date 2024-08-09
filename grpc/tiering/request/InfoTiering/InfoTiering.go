@@ -39,6 +39,7 @@ func Example(address string, port int) {
 	client := tiering.NewTieringClient(conn)
 	result := Run(&client, &tiering.InfoTieringRequest{
 		TieringId: 1,
+		Op:        tiering.InfoTieringRequest_GET_CURRENT,
 	})
 
 	printResult(result)
