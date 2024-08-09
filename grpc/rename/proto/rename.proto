@@ -1,0 +1,18 @@
+syntax = "proto3";
+option go_package = "yrcf_grpc_case/grpc/rename/proto/;rename";
+import "response.proto";
+package YrcfAgent;
+
+message RenameRequest {
+    string from_path = 1;
+    string to_path = 2;
+    bool use_mount_path = 3;
+}
+
+message RenameResponse {
+    ResMes result = 1;
+}
+
+service Rename {
+    rpc Rename(RenameRequest) returns (RenameResponse) {}
+}

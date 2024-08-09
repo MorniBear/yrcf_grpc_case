@@ -23,7 +23,6 @@ const (
 	Bucket_ListBucketState_FullMethodName = "/YrcfAgent.Bucket/ListBucketState"
 	Bucket_AddOrTestBucket_FullMethodName = "/YrcfAgent.Bucket/AddOrTestBucket"
 	Bucket_UpdateBucket_FullMethodName    = "/YrcfAgent.Bucket/UpdateBucket"
-	Bucket_DeleteBucket_FullMethodName    = "/YrcfAgent.Bucket/DeleteBucket"
 )
 
 // BucketClient is the client API for Bucket service.
@@ -34,7 +33,6 @@ type BucketClient interface {
 	ListBucketState(ctx context.Context, in *ListBucketStateRequest, opts ...grpc.CallOption) (*ListBucketStateResponse, error)
 	AddOrTestBucket(ctx context.Context, in *AddOrTestBucketRequest, opts ...grpc.CallOption) (*AddOrTestBucketResponse, error)
 	UpdateBucket(ctx context.Context, in *UpdateBucketRequest, opts ...grpc.CallOption) (*UpdateBucketResponse, error)
-	DeleteBucket(ctx context.Context, in *DeleteBucketRequest, opts ...grpc.CallOption) (*DeleteBucketResponse, error)
 }
 
 type bucketClient struct {
@@ -85,16 +83,6 @@ func (c *bucketClient) UpdateBucket(ctx context.Context, in *UpdateBucketRequest
 	return out, nil
 }
 
-func (c *bucketClient) DeleteBucket(ctx context.Context, in *DeleteBucketRequest, opts ...grpc.CallOption) (*DeleteBucketResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeleteBucketResponse)
-	err := c.cc.Invoke(ctx, Bucket_DeleteBucket_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // BucketServer is the server API for Bucket service.
 // All implementations must embed UnimplementedBucketServer
 // for forward compatibility
@@ -103,7 +91,6 @@ type BucketServer interface {
 	ListBucketState(context.Context, *ListBucketStateRequest) (*ListBucketStateResponse, error)
 	AddOrTestBucket(context.Context, *AddOrTestBucketRequest) (*AddOrTestBucketResponse, error)
 	UpdateBucket(context.Context, *UpdateBucketRequest) (*UpdateBucketResponse, error)
-	DeleteBucket(context.Context, *DeleteBucketRequest) (*DeleteBucketResponse, error)
 	mustEmbedUnimplementedBucketServer()
 }
 
@@ -122,9 +109,6 @@ func (UnimplementedBucketServer) AddOrTestBucket(context.Context, *AddOrTestBuck
 }
 func (UnimplementedBucketServer) UpdateBucket(context.Context, *UpdateBucketRequest) (*UpdateBucketResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateBucket not implemented")
-}
-func (UnimplementedBucketServer) DeleteBucket(context.Context, *DeleteBucketRequest) (*DeleteBucketResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteBucket not implemented")
 }
 func (UnimplementedBucketServer) mustEmbedUnimplementedBucketServer() {}
 
@@ -211,24 +195,6 @@ func _Bucket_UpdateBucket_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Bucket_DeleteBucket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteBucketRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(BucketServer).DeleteBucket(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Bucket_DeleteBucket_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BucketServer).DeleteBucket(ctx, req.(*DeleteBucketRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // Bucket_ServiceDesc is the grpc.ServiceDesc for Bucket service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -251,10 +217,6 @@ var Bucket_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateBucket",
 			Handler:    _Bucket_UpdateBucket_Handler,
-		},
-		{
-			MethodName: "DeleteBucket",
-			Handler:    _Bucket_DeleteBucket_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

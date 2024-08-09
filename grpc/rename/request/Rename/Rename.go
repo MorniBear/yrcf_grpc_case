@@ -1,4 +1,4 @@
-package DeleteBucket
+package Rename
 
 import (
 	"context"
@@ -6,19 +6,19 @@ import (
 	"google.golang.org/grpc"
 	"log"
 	"time"
-	bucket "yrcf_grpc_case/grpc/bucket/proto"
 	connect "yrcf_grpc_case/grpc/common"
+	rename "yrcf_grpc_case/grpc/rename/proto"
 )
 
-func Run(client *bucket.BucketClient, param *bucket.DeleteBucketRequest) bool {
+func Run(client *rename.RenameClient, param *rename.RenameRequest) bool {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	result, err := (*client).DeleteBucket(ctx, param)
+	result, err := (*client).Rename(ctx, param)
 	if err != nil {
-		log.Fatal("did not delete bucket, err: ", err)
+		log.Fatal("did not rename, err: ", err)
 	}
 	if result.GetResult().GetErrorCode() != 0 {
-		log.Printf("delete bucket failed, errcode=%d, result=%s\n",
+		log.Printf("rename failed, errcode=%d, result=%s\n",
 			result.GetResult().GetErrorCode(), result.GetResult().GetResult())
 		return false
 	} else {
@@ -35,12 +35,13 @@ func Example(address string, port int) {
 		}
 	}(conn)
 
-	client := bucket.NewBucketClient(conn)
-	result := Run(&client, &bucket.DeleteBucketRequest{
-		BucketId: 1,
+	client := rename.NewRenameClient(conn)
+	var result = Run(&client, &rename.RenameRequest{
+		FromPath:     "grpc_from/grpc_file",
+		ToPath:       "grpc_to/grpc_rename",
+		UseMountPath: false,
 	})
-
 	if result {
-		fmt.Println("delete bucket succeeded")
+		fmt.Println("rename succeeded")
 	}
 }

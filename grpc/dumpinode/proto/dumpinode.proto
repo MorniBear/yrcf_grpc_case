@@ -1,9 +1,10 @@
 syntax = "proto3";
+option go_package = "yrcf_grpc_case/grpc/dumpinode/proto/;dumpinode";
 
 import "response.proto";
 
 package YrcfAgent;
-option go_package = "yrcf_grpc_case/grpc/dumpinode/proto/;dumpinode";
+
 //message for dumpinode
 message DumpInodeRequest {
     // Use path for mounted.(default false)

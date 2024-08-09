@@ -1,12 +1,12 @@
 syntax = "proto3";
+option go_package = "yrcf_grpc_case/grpc/ossoverview/proto/;ossoverview";
 import "nodeoverview.proto";
 import "response.proto";
 package YrcfAgent;
-option go_package = "yrcf_grpc_case/grpc/ossoverview/proto/;ossoverview";
+
 //grpc client: get oss overview
 message OssOverviewRequest {
     bool unused = 1;
-    string cidr = 2;
 }
 //grpc server: return oss overview
 message OssOverviewRet {

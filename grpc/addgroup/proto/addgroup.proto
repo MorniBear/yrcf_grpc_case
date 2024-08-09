@@ -1,9 +1,10 @@
 syntax = "proto3";
+option go_package = "yrcf_grpc_case/grpc/addgroup/proto/;addgroup";
 
 import "response.proto";
 
 package YrcfAgent;
-option go_package = "yrcf_grpc_case/grpc/addgroup/proto/;addgroup";
+
 message OsdGroupInfo {
     uint32 group_id = 1;
 

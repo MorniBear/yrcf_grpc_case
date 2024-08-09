@@ -1,9 +1,10 @@
 syntax = "proto3";
+option go_package = "yrcf_grpc_case/grpc/tiering/proto/;tiering";
 
 import "response.proto";
 
 package YrcfAgent;
-option go_package = "yrcf_grpc_case/grpc/tiering/proto/;tiering";
+
 message TieringBasicInfo {
     string path      = 1;
     uint32 bucket_id = 2;
@@ -116,15 +117,6 @@ message TieringStat {
     string path          = 5;
 }
 
-// message for rpc stat tiering
-message StatTieringRequest {
-    // default 0, if so, will list all tiering stat
-    uint32 tiering_id = 1;
-}
-message StatTieringResponse {
-    ResMes result = 1;
-    repeated TieringStat tiering_stat = 2;
-}
 
 // message for rpc recover tiering
 message RecoverTieringRequest {
@@ -152,14 +144,6 @@ message RecoverTieringStatRequest {
 message RecoverTieringStatResponse {
     ResMes result                    = 1;
     RecoverTieringStatInfo stat_info = 2;
-}
-
-// message for rpc scan tiering
-message ScanTieringRequest {
-    uint32 tiering_id = 1;
-}
-message ScanTieringResponse {
-    ResMes result = 1;
 }
 
 message InfoTieringRequest {
@@ -196,24 +180,9 @@ message InfoTieringResponse {
 
 message AbortTieringRequest {
     uint32 tiering_id = 1;
-    bool all          = 2;
 }
 message AbortTieringResponse {
     ResMes result = 1;
-}
-
-message PauseTieringRequest {
-    enum PauseTieringOp {
-        UPDATE = 0;
-        STATUS = 1;
-    }
-    PauseTieringOp op = 1;
-    bool on           = 2;
-}
-
-message PauseTieringResponse {
-    bool status   = 1;
-    ResMes result = 2;
 }
 
 service Tiering {
@@ -222,11 +191,8 @@ service Tiering {
   rpc UpdateTiering(UpdateTieringRequest) returns (UpdateTieringResponse) {}
   rpc FlushTiering(FlushTieringRequest) returns (FlushTieringResponse) {}
   rpc ListTiering(ListTieringRequest) returns (ListTieringResponse) {}
-  rpc StatTiering(StatTieringRequest) returns (StatTieringResponse) {}
   rpc RecoverTiering(RecoverTieringRequest) returns (RecoverTieringResponse) {}
   rpc RecoverTieringStat(RecoverTieringStatRequest) returns (RecoverTieringStatResponse) {}
-  rpc ScanTiering(ScanTieringRequest) returns (ScanTieringResponse) {}
   rpc InfoTiering(InfoTieringRequest) returns (InfoTieringResponse) {}
   rpc AbortTiering(AbortTieringRequest) returns (AbortTieringResponse) {}
-  rpc PauseTiering(PauseTieringRequest) returns (PauseTieringResponse) {}
 }

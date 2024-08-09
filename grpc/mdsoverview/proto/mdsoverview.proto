@@ -1,12 +1,12 @@
 syntax = "proto3";
+option go_package = "yrcf_grpc_case/grpc/mdsoverview/proto/;mdsoverview";
 import "nodeoverview.proto";
 import "response.proto";
 package YrcfAgent;
-option go_package = "yrcf_grpc_case/grpc/proto/;mdsoverview";
+
 //grpc client: get mds overview
 message MdsOverviewRequest {
     bool unused = 1;
-    string cidr = 2;
 }
 //grpc server: return mds overview
 message MdsOverviewRet {

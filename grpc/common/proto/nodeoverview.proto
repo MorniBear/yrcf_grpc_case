@@ -1,6 +1,7 @@
 syntax = "proto3";
+option go_package = "yrcf_grpc_case/grpc/common/proto/;common";
 package YrcfAgent;
-option go_package = "yrcf_grpc_case/grpc/common/proto;common";
+
 //value with timestamp key
 //this message is used for MdsOverviewRet/OssOverviewRet
 message TimeValue {

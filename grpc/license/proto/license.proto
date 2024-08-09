@@ -1,7 +1,8 @@
 syntax = "proto3";
+option go_package = "yrcf_grpc_case/grpc/license/proto/;license";
 import "response.proto";
 package YrcfAgent;
-option go_package = "yrcf_grpc_case/grpc/license/proto/;license";
+
 // get license
 message GetLicenseRequest {
 }

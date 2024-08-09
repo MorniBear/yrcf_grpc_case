@@ -1,9 +1,10 @@
 syntax = "proto3";
+option go_package = "yrcf_grpc_case/grpc/bucketlink/proto/;bucketlink";
 
 import "response.proto";
 
 package YrcfAgent;
-option go_package = "yrcf_grpc_case/grpc/bucketlink/proto/;bucketlink";
+
 message ImportConfig {
     enum Scope {
         IMPORT_ALL          = 0;
@@ -69,12 +70,10 @@ message ExportConfig {
 
 message SubscribeConfig {
     enum S3Type {
-        UNSET =      0;
-        ALI   =      1;
-        BAIDU =      2;
-        CEPH  =      3;
-        YANRONGYUN = 4;
-        YRXS  =      5;
+        UNSET = 0;
+        ALI   = 1;
+        BAIDU = 2;
+        CEPH  = 3;
     }
     S3Type s3_type          = 1;
     string prefix           = 2;

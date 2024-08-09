@@ -1,9 +1,10 @@
 syntax = "proto3";
+option go_package = "yrcf_grpc_case/grpc/setentry/proto/;setentry";
 
 import "response.proto";
 
 package YrcfAgent;
-option go_package = "yrcf_grpc_case/grpc/setentry/proto/;setentry";
+
 // message for setentry
 message SetEntryRequest {
     bool use_mounted_path = 1;
@@ -15,10 +16,12 @@ message SetEntryRequest {
         MIRROR = 0;
         RAID0 = 1;
         STANDBY = 2;
+        EC = 3;
     }
     Schema schema = 5;
     string pool_id = 6;
     bool force_set = 7;
+    string ec_blocksize = 9;
 }
 message SetEntryResponse {
     ResMes result = 1;

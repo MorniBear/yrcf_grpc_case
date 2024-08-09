@@ -1,9 +1,10 @@
 syntax = "proto3";
+option go_package = "yrcf_grpc_case/grpc/bucket/proto/;bucket";
 
 import "response.proto";
 
 package YrcfAgent;
-option go_package = "yrcf_grpc_case/grpc/bucket/proto/;bucket";
+
 message BucketConfig {
     string host_name = 1;
     string bucket_name = 2;
@@ -81,18 +82,9 @@ message UpdateBucketResponse {
     ResMes result = 1;
 }
 
-//message for bucket delete
-message DeleteBucketRequest {
-    uint32 bucket_id = 1;
-}
-message DeleteBucketResponse {
-    ResMes result = 1;
-}
-
 service Bucket {
     rpc ListBuckets(ListBucketsRequest) returns (ListBucketsResponse);
     rpc ListBucketState(ListBucketStateRequest) returns (ListBucketStateResponse);
     rpc AddOrTestBucket(AddOrTestBucketRequest) returns (AddOrTestBucketResponse);
     rpc UpdateBucket(UpdateBucketRequest) returns (UpdateBucketResponse);
-    rpc DeleteBucket(DeleteBucketRequest) returns (DeleteBucketResponse);
 }

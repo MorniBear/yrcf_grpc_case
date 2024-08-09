@@ -1,9 +1,10 @@
 syntax = "proto3";
+option go_package = "yrcf_grpc_case/grpc/listosds/proto/;listosds";
 
 import "response.proto";
 
 package YrcfAgent;
-option go_package = "yrcf_grpc_case/grpc/listosds/proto/;listosds";
+
 message OsdInfo {
     enum OsdType {
         OSS = 0;

@@ -39,8 +39,7 @@ func Example(address string, port int) {
 
 	client := mdsoverview.NewMdsOverviewClient(conn)
 	results := Run(&client, &mdsoverview.MdsOverviewRequest{
-		Unused: false,
-		Cidr:   ""})
+		Unused: false})
 
 	printResult(results)
 }

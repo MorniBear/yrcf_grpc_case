@@ -41,9 +41,10 @@ func Example(address string, port int) {
 		Path:           "/",
 		StripeSize:     "1m",
 		StripeCount:    3,
-		Schema:         setentry.SetEntryRequest_MIRROR,
+		Schema:         setentry.SetEntryRequest_EC,
 		PoolId:         "",
 		ForceSet:       false,
+		EcBlocksize:    "1m",
 	})
 
 	if result {

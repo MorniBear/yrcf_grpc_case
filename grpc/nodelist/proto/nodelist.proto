@@ -1,7 +1,8 @@
 syntax = "proto3";
+option go_package = "yrcf_grpc_case/grpc/nodelist/proto/;nodelist";
 import "response.proto";
 package YrcfAgent;
-option go_package = "yrcf_grpc_case/grpc/nodelist/proto/;nodelist";
+
 //grpc client: get node list
 message NodeListRequest {
     bool client = 1;

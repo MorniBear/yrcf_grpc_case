@@ -24,13 +24,10 @@ const (
 	Tiering_UpdateTiering_FullMethodName      = "/YrcfAgent.Tiering/UpdateTiering"
 	Tiering_FlushTiering_FullMethodName       = "/YrcfAgent.Tiering/FlushTiering"
 	Tiering_ListTiering_FullMethodName        = "/YrcfAgent.Tiering/ListTiering"
-	Tiering_StatTiering_FullMethodName        = "/YrcfAgent.Tiering/StatTiering"
 	Tiering_RecoverTiering_FullMethodName     = "/YrcfAgent.Tiering/RecoverTiering"
 	Tiering_RecoverTieringStat_FullMethodName = "/YrcfAgent.Tiering/RecoverTieringStat"
-	Tiering_ScanTiering_FullMethodName        = "/YrcfAgent.Tiering/ScanTiering"
 	Tiering_InfoTiering_FullMethodName        = "/YrcfAgent.Tiering/InfoTiering"
 	Tiering_AbortTiering_FullMethodName       = "/YrcfAgent.Tiering/AbortTiering"
-	Tiering_PauseTiering_FullMethodName       = "/YrcfAgent.Tiering/PauseTiering"
 )
 
 // TieringClient is the client API for Tiering service.
@@ -42,13 +39,10 @@ type TieringClient interface {
 	UpdateTiering(ctx context.Context, in *UpdateTieringRequest, opts ...grpc.CallOption) (*UpdateTieringResponse, error)
 	FlushTiering(ctx context.Context, in *FlushTieringRequest, opts ...grpc.CallOption) (*FlushTieringResponse, error)
 	ListTiering(ctx context.Context, in *ListTieringRequest, opts ...grpc.CallOption) (*ListTieringResponse, error)
-	StatTiering(ctx context.Context, in *StatTieringRequest, opts ...grpc.CallOption) (*StatTieringResponse, error)
 	RecoverTiering(ctx context.Context, in *RecoverTieringRequest, opts ...grpc.CallOption) (*RecoverTieringResponse, error)
 	RecoverTieringStat(ctx context.Context, in *RecoverTieringStatRequest, opts ...grpc.CallOption) (*RecoverTieringStatResponse, error)
-	ScanTiering(ctx context.Context, in *ScanTieringRequest, opts ...grpc.CallOption) (*ScanTieringResponse, error)
 	InfoTiering(ctx context.Context, in *InfoTieringRequest, opts ...grpc.CallOption) (*InfoTieringResponse, error)
 	AbortTiering(ctx context.Context, in *AbortTieringRequest, opts ...grpc.CallOption) (*AbortTieringResponse, error)
-	PauseTiering(ctx context.Context, in *PauseTieringRequest, opts ...grpc.CallOption) (*PauseTieringResponse, error)
 }
 
 type tieringClient struct {
@@ -109,16 +103,6 @@ func (c *tieringClient) ListTiering(ctx context.Context, in *ListTieringRequest,
 	return out, nil
 }
 
-func (c *tieringClient) StatTiering(ctx context.Context, in *StatTieringRequest, opts ...grpc.CallOption) (*StatTieringResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(StatTieringResponse)
-	err := c.cc.Invoke(ctx, Tiering_StatTiering_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *tieringClient) RecoverTiering(ctx context.Context, in *RecoverTieringRequest, opts ...grpc.CallOption) (*RecoverTieringResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RecoverTieringResponse)
@@ -133,16 +117,6 @@ func (c *tieringClient) RecoverTieringStat(ctx context.Context, in *RecoverTieri
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RecoverTieringStatResponse)
 	err := c.cc.Invoke(ctx, Tiering_RecoverTieringStat_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *tieringClient) ScanTiering(ctx context.Context, in *ScanTieringRequest, opts ...grpc.CallOption) (*ScanTieringResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ScanTieringResponse)
-	err := c.cc.Invoke(ctx, Tiering_ScanTiering_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -169,16 +143,6 @@ func (c *tieringClient) AbortTiering(ctx context.Context, in *AbortTieringReques
 	return out, nil
 }
 
-func (c *tieringClient) PauseTiering(ctx context.Context, in *PauseTieringRequest, opts ...grpc.CallOption) (*PauseTieringResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(PauseTieringResponse)
-	err := c.cc.Invoke(ctx, Tiering_PauseTiering_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // TieringServer is the server API for Tiering service.
 // All implementations must embed UnimplementedTieringServer
 // for forward compatibility
@@ -188,13 +152,10 @@ type TieringServer interface {
 	UpdateTiering(context.Context, *UpdateTieringRequest) (*UpdateTieringResponse, error)
 	FlushTiering(context.Context, *FlushTieringRequest) (*FlushTieringResponse, error)
 	ListTiering(context.Context, *ListTieringRequest) (*ListTieringResponse, error)
-	StatTiering(context.Context, *StatTieringRequest) (*StatTieringResponse, error)
 	RecoverTiering(context.Context, *RecoverTieringRequest) (*RecoverTieringResponse, error)
 	RecoverTieringStat(context.Context, *RecoverTieringStatRequest) (*RecoverTieringStatResponse, error)
-	ScanTiering(context.Context, *ScanTieringRequest) (*ScanTieringResponse, error)
 	InfoTiering(context.Context, *InfoTieringRequest) (*InfoTieringResponse, error)
 	AbortTiering(context.Context, *AbortTieringRequest) (*AbortTieringResponse, error)
-	PauseTiering(context.Context, *PauseTieringRequest) (*PauseTieringResponse, error)
 	mustEmbedUnimplementedTieringServer()
 }
 
@@ -217,26 +178,17 @@ func (UnimplementedTieringServer) FlushTiering(context.Context, *FlushTieringReq
 func (UnimplementedTieringServer) ListTiering(context.Context, *ListTieringRequest) (*ListTieringResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListTiering not implemented")
 }
-func (UnimplementedTieringServer) StatTiering(context.Context, *StatTieringRequest) (*StatTieringResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method StatTiering not implemented")
-}
 func (UnimplementedTieringServer) RecoverTiering(context.Context, *RecoverTieringRequest) (*RecoverTieringResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RecoverTiering not implemented")
 }
 func (UnimplementedTieringServer) RecoverTieringStat(context.Context, *RecoverTieringStatRequest) (*RecoverTieringStatResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RecoverTieringStat not implemented")
 }
-func (UnimplementedTieringServer) ScanTiering(context.Context, *ScanTieringRequest) (*ScanTieringResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ScanTiering not implemented")
-}
 func (UnimplementedTieringServer) InfoTiering(context.Context, *InfoTieringRequest) (*InfoTieringResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method InfoTiering not implemented")
 }
 func (UnimplementedTieringServer) AbortTiering(context.Context, *AbortTieringRequest) (*AbortTieringResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AbortTiering not implemented")
-}
-func (UnimplementedTieringServer) PauseTiering(context.Context, *PauseTieringRequest) (*PauseTieringResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PauseTiering not implemented")
 }
 func (UnimplementedTieringServer) mustEmbedUnimplementedTieringServer() {}
 
@@ -341,24 +293,6 @@ func _Tiering_ListTiering_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Tiering_StatTiering_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(StatTieringRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(TieringServer).StatTiering(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Tiering_StatTiering_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TieringServer).StatTiering(ctx, req.(*StatTieringRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Tiering_RecoverTiering_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RecoverTieringRequest)
 	if err := dec(in); err != nil {
@@ -391,24 +325,6 @@ func _Tiering_RecoverTieringStat_Handler(srv interface{}, ctx context.Context, d
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(TieringServer).RecoverTieringStat(ctx, req.(*RecoverTieringStatRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Tiering_ScanTiering_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ScanTieringRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(TieringServer).ScanTiering(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Tiering_ScanTiering_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TieringServer).ScanTiering(ctx, req.(*ScanTieringRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -449,24 +365,6 @@ func _Tiering_AbortTiering_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Tiering_PauseTiering_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PauseTieringRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(TieringServer).PauseTiering(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Tiering_PauseTiering_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TieringServer).PauseTiering(ctx, req.(*PauseTieringRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // Tiering_ServiceDesc is the grpc.ServiceDesc for Tiering service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -495,10 +393,6 @@ var Tiering_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Tiering_ListTiering_Handler,
 		},
 		{
-			MethodName: "StatTiering",
-			Handler:    _Tiering_StatTiering_Handler,
-		},
-		{
 			MethodName: "RecoverTiering",
 			Handler:    _Tiering_RecoverTiering_Handler,
 		},
@@ -507,20 +401,12 @@ var Tiering_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Tiering_RecoverTieringStat_Handler,
 		},
 		{
-			MethodName: "ScanTiering",
-			Handler:    _Tiering_ScanTiering_Handler,
-		},
-		{
 			MethodName: "InfoTiering",
 			Handler:    _Tiering_InfoTiering_Handler,
 		},
 		{
 			MethodName: "AbortTiering",
 			Handler:    _Tiering_AbortTiering_Handler,
-		},
-		{
-			MethodName: "PauseTiering",
-			Handler:    _Tiering_PauseTiering_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

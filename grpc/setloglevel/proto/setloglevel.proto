@@ -5,11 +5,12 @@
  *  be deleted in the future.
  */
 syntax = "proto3";
+option go_package = "yrcf_grpc_case/grpc/setloglevel/proto/;setloglevel";
 
 import "response.proto";
 
 package YrcfAgent;
-option go_package = "yrcf_grpc_case/grpc/setloglevel/proto/;setloglevel";
+
 // message for set log level
 message SetLogLevelRequest {
     enum LogLevel {

@@ -1,9 +1,10 @@
 syntax = "proto3";
+option go_package = "yrcf_grpc_case/grpc/rmdir/proto/;rmdir";
 
 import "response.proto";
 
 package YrcfAgent;
-option go_package = "yrcf_grpc_case/grpc/rmdir/proto;rmdir";
+
 
 // message for rpc rmdir
 message RmDirRequest {

@@ -1,9 +1,10 @@
 syntax = "proto3";
+option go_package = "yrcf_grpc_case/grpc/getentry/proto/;getentry";
 
 import "response.proto";
 
 package YrcfAgent;
-option go_package = "yrcf_grpc_case/grpc/getentry/proto/;getentry";
+
 message MetaInfo {
     string eid        = 1;
     string peid       = 2;
@@ -21,6 +22,8 @@ message DataInfo {
     string stripe_size    = 6;
     string stripe_count   = 7;
     string placement      = 8;
+    string ec_pattern     = 9;
+    uint32 block_size     = 10;
 }
 
 //message for rpc getentry

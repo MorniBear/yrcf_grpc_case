@@ -1,9 +1,10 @@
 syntax = "proto3";
+option go_package = "yrcf_grpc_case/grpc/setattr/proto/;setattr";
 
 import "response.proto";
 
 package YrcfAgent;
-option go_package = "yrcf_grpc_case/grpc/setattr/proto/;setattr";
+
 // message for rpc SetAttr
 message SetAttrRequest {
     bool use_absolute_path = 1;

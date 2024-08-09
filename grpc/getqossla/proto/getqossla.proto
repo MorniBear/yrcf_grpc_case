@@ -1,9 +1,10 @@
 syntax = "proto3";
+option go_package = "yrcf_grpc_case/grpc/getqossla/proto/;getqossla";
 
 import "response.proto";
 
 package YrcfAgent;
-option go_package = "yrcf_grpc_case/grpc/getqossla/proto/;getqossla";
+
 message QosSlaValue {
     // "ps" refers to "per second"
     uint64 read_times_ps  = 1;

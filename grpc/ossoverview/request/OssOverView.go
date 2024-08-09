@@ -39,8 +39,7 @@ func Example(address string, port int) {
 
 	client := ossoverview.NewOssOverviewClient(conn)
 	results := Run(&client, &ossoverview.OssOverviewRequest{
-		Unused: false,
-		Cidr:   ""})
+		Unused: false})
 
 	printResult(results)
 }

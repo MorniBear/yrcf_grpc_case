@@ -1,0 +1,35 @@
+syntax = "proto3";
+option go_package = "yrcf_grpc_case/grpc/addecgroup/proto/;addecgroup";
+import "response.proto";
+package YrcfAgent;
+
+message ECGroupInfo {
+    // Use the given ID for the new group, if not set,
+    // it will be gerated automatically by default.
+    uint32 group_id      = 1;
+    uint32 data_num      = 2;
+    uint32 parity_num    = 3;
+    uint32 master_osd_id = 4; // specified master node id, must set with parameter <osd_ids>
+    string osd_ids       = 5;
+}
+
+// message for rpc add group
+message AddECGroupRequest {
+    bool auto_add_group       = 1;
+
+    // add group forcelyeven there is something unexpected
+    // For example,master and slave node with different disk space.
+    bool force_add            = 2;
+    bool preview              = 3; // Preview the schema before update to cluster.
+
+    ECGroupInfo ec_group_info = 4;
+}
+
+message AddECGroupResponse {
+    ResMes result                      = 1;
+    repeated ECGroupInfo ec_group_info = 2;
+}
+
+service AddECGroup {
+    rpc AddECGroup(AddECGroupRequest) returns (AddECGroupResponse) {}
+}

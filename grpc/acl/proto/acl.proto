@@ -1,7 +1,8 @@
 syntax = "proto3";
+option go_package = "yrcf_grpc_case/grpc/acl/proto/;acl";
 import "response.proto";
 package YrcfAgent;
-option go_package = "yrcf_grpc_case/grpc/acl/proto/;acl";
+
 // add acl
 message AddAclRequest {
     string path = 1;

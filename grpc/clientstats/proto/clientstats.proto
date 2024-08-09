@@ -1,7 +1,8 @@
 syntax = "proto3";
+option go_package = "yrcf_grpc_case/grpc/clientstats/proto/;clientstats";
 import "response.proto";
 package YrcfAgent;
-option go_package = "yrcf_grpc_case/grpc/clientstats/proto;clientstats";
+
 //grpc client: get client stats
 message ClientStatsRequest {
     //true: hide server ip
@@ -17,7 +18,6 @@ message ClientStatsRequest {
         INT = 2;
     }
     StatsType client_stats_type = 4;
-    string cidr = 5;
 }
 
 /*
@@ -98,10 +98,8 @@ message ClientStatsRet {
     //the client message start with the second message
     //client ip
     string ip = 1;
-    //true: client ip is online
-    bool online = 2;
     //mds or oss opcounter
-    repeated uint64 opcounters = 3;
+    repeated uint64 opcounters = 2;
 }
 message ClientStatsResponse {
     ResMes result = 1;

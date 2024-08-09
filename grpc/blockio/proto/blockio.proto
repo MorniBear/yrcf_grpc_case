@@ -1,9 +1,10 @@
 syntax = "proto3";
+option go_package = "yrcf_grpc_case/grpc/blockio/proto/;blockio";
 
 import "response.proto";
 
 package YrcfAgent;
-option go_package = "yrcf_grpc_case/grpc/blockio/proto/;blockio";
+
 message BlockLinkInfo {
     uint32 link_id = 1;
 
